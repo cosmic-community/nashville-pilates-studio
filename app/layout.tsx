@@ -3,6 +3,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CosmicBadge from '@/components/CosmicBadge'
+import { CartProvider } from '@/components/CartProvider'
 
 export const metadata: Metadata = {
   title: 'Aligna Pilates Studio - Graceful Body Movement',
@@ -22,10 +23,12 @@ export default function RootLayout({
         <script src="/dashboard-console-capture.js" />
       </head>
       <body className="bg-cream-50">
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <CosmicBadge bucketSlug={bucketSlug} />
+        <CartProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+          <CosmicBadge bucketSlug={bucketSlug} />
+        </CartProvider>
       </body>
     </html>
   )

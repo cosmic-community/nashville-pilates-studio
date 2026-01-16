@@ -63,6 +63,7 @@ export interface PilatesClass extends CosmicObject {
     category: CategoryType
     access_type: AccessType
     instructor?: Instructor
+    price?: number
   }
 }
 
@@ -71,4 +72,33 @@ export interface CosmicResponse<T> {
   total: number
   limit: number
   skip: number
+}
+
+// Cart types
+export interface CartItem {
+  id: string
+  slug: string
+  title: string
+  price: number
+  image: string
+  duration: number
+  quantity: number
+}
+
+export interface CartState {
+  items: CartItem[]
+  total: number
+}
+
+// Order types for tracking purchases
+export interface Order extends CosmicObject {
+  type: 'orders'
+  metadata: {
+    stripe_session_id: string
+    customer_email: string
+    total_amount: number
+    status: 'pending' | 'completed' | 'cancelled'
+    items: string // JSON string of cart items
+    created_date: string
+  }
 }
