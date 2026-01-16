@@ -1,21 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { useCart } from './CartProvider'
+import { useContext } from 'react'
+import { CartContext } from './CartProvider'
 
 export default function CartIcon() {
-  // Changed: Added try-catch pattern to handle cases where CartProvider is not available
-  // This prevents build errors during static page generation (e.g., /_not-found)
-  let itemCount = 0
-  
-  try {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { cart } = useCart()
-    itemCount = cart.items.length
-  } catch {
-    // CartProvider not available (e.g., during static generation)
-    // Return cart icon without count
-  }
+  // Changed: Use useContext directly instead of useCart hook to avoid throwing during prerender
+  const cartContext = useContext(CartContext)
+  const itemCount = cartContext?.cart.items.length ?? 0
 
   return (
     <Link 

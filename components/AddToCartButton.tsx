@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useCart } from './CartProvider'
+import { useState, useContext } from 'react'
+import { CartContext } from './CartProvider'
 import { PilatesClass } from '@/types'
 
 interface AddToCartButtonProps {
@@ -11,11 +11,16 @@ interface AddToCartButtonProps {
 }
 
 export default function AddToCartButton({ classItem, variant = 'primary', className = '' }: AddToCartButtonProps) {
-  const { addToCart, isInCart } = useCart()
+  // Changed: Use useContext directly to safely handle missing CartProvider during prerender
+  const cartContext = useContext(CartContext)
   const [isAdding, setIsAdding] = useState(false)
   
   const price = classItem.metadata.price || 0
   const isFree = classItem.metadata.access_type?.key === 'free' || price === 0
+  
+  // Safe defaults when CartProvider is not available
+  const addToCart = cartContext?.addToCart ?? (() => {})
+  const isInCart = cartContext?.isInCart ?? (() => false)
   const alreadyInCart = isInCart(classItem.id)
 
   const handleAddToCart = () => {

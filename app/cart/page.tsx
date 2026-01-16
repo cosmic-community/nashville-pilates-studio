@@ -1,16 +1,22 @@
 'use client'
 
-import { useCart } from '@/components/CartProvider'
+import { useContext, useState } from 'react'
 import Link from 'next/link'
-import { useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
+import { CartContext } from '@/components/CartProvider'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string)
 
 export default function CartPage() {
-  const { cart, removeFromCart, clearCart } = useCart()
+  // Changed: Use useContext directly to safely handle missing CartProvider during prerender
+  const cartContext = useContext(CartContext)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Changed: Safe defaults when CartProvider is not available (during static generation)
+  const cart = cartContext?.cart ?? { items: [], total: 0 }
+  const removeFromCart = cartContext?.removeFromCart ?? (() => {})
+  const clearCart = cartContext?.clearCart ?? (() => {})
 
   const handleCheckout = async () => {
     if (cart.items.length === 0) return
