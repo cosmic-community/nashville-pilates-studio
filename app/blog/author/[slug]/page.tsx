@@ -18,35 +18,46 @@ interface AuthorPageProps {
 }
 
 export async function generateStaticParams() {
-  const authors = await getBlogAuthors()
-  return authors.map((author) => ({ slug: author.slug }))
+  try {
+    const authors = await getBlogAuthors()
+    return authors.map((author) => ({ slug: author.slug }))
+  } catch {
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: AuthorPageProps): Promise<Metadata> {
   const { slug } = await params
-  const author = await getBlogAuthorBySlug(slug)
   
-  if (!author) {
+  try {
+    const author = await getBlogAuthorBySlug(slug)
+    
+    if (!author) {
+      return {
+        title: 'Author Not Found - Aligna Pilates Studio',
+      }
+    }
+    
+    const name = author.metadata?.name || author.title
+    const bio = author.metadata?.bio
+    const photo = author.metadata?.photo?.imgix_url
+      ? `${author.metadata.photo.imgix_url}?w=400&h=400&fit=crop&auto=format,compress`
+      : undefined
+    
+    return {
+      title: `${name} - Author | Aligna Pilates Studio Blog`,
+      description: bio || `Read articles by ${name} on Aligna Pilates Studio Blog`,
+      openGraph: {
+        title: `${name} - Author`,
+        description: bio || `Read articles by ${name}`,
+        type: 'profile',
+        images: photo ? [{ url: photo, width: 400, height: 400 }] : undefined,
+      },
+    }
+  } catch {
     return {
       title: 'Author Not Found - Aligna Pilates Studio',
     }
-  }
-  
-  const name = author.metadata?.name || author.title
-  const bio = author.metadata?.bio
-  const photo = author.metadata?.photo?.imgix_url
-    ? `${author.metadata.photo.imgix_url}?w=400&h=400&fit=crop&auto=format,compress`
-    : undefined
-  
-  return {
-    title: `${name} - Author | Aligna Pilates Studio Blog`,
-    description: bio || `Read articles by ${name} on Aligna Pilates Studio Blog`,
-    openGraph: {
-      title: `${name} - Author`,
-      description: bio || `Read articles by ${name}`,
-      type: 'profile',
-      images: photo ? [{ url: photo, width: 400, height: 400 }] : undefined,
-    },
   }
 }
 
@@ -55,13 +66,34 @@ export default async function AuthorPage({ params, searchParams }: AuthorPagePro
   const { page: pageParam } = await searchParams
   const page = Number(pageParam) || 1
   
-  const author = await getBlogAuthorBySlug(slug)
+  let author
+  try {
+    author = await getBlogAuthorBySlug(slug)
+  } catch {
+    notFound()
+  }
   
   if (!author) {
     notFound()
   }
   
-  const postsData = await getBlogPostsByAuthor(author.id, page)
+  // Fetch posts with error handling - default to empty results on error
+  let postsData = {
+    items: [],
+    totalPages: 0,
+    total: 0,
+    page: 1,
+    hasNextPage: false,
+    hasPrevPage: false,
+  }
+  
+  try {
+    postsData = await getBlogPostsByAuthor(author.id, page)
+  } catch (error) {
+    // Log error but continue with empty posts - don't crash the page
+    console.error('Error fetching posts by author:', error)
+  }
+  
   const { items: posts, totalPages, total } = postsData
   
   const name = author.metadata?.name || author.title

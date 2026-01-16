@@ -395,6 +395,9 @@ export async function getBlogPostsByAuthor(
       hasPrevPage: page > 1,
     }
   } catch (error) {
+    // Return empty results for any error (404 or otherwise)
+    // This prevents the page from crashing when the author has no posts
+    // or when there's a query issue
     if (hasStatus(error) && error.status === 404) {
       return {
         items: [],
@@ -405,7 +408,17 @@ export async function getBlogPostsByAuthor(
         hasPrevPage: false,
       }
     }
-    throw new Error('Failed to fetch posts by author')
+    // For other errors, also return empty instead of throwing
+    // This is a graceful degradation approach
+    console.error('Error fetching posts by author:', error)
+    return {
+      items: [],
+      total: 0,
+      page: 1,
+      totalPages: 0,
+      hasNextPage: false,
+      hasPrevPage: false,
+    }
   }
 }
 
