@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply font-sans text-gray-800 antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-olive-800 text-white px-6 py-3 rounded-pill font-medium transition-all duration-300 hover:bg-olive-700;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 text-gray-800 font-medium transition-all duration-300 hover:text-olive-800;
+  }
+  
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .card {
+    @apply bg-white rounded-2xl overflow-hidden shadow-soft transition-all duration-300 hover:shadow-medium;
+  }
+  
+  .badge-free {
+    @apply inline-flex items-center px-3 py-1 rounded-pill text-sm font-medium bg-green-100 text-green-800;
+  }
+  
+  .badge-premium {
+    @apply inline-flex items-center px-3 py-1 rounded-pill text-sm font-medium bg-accent/20 text-accent-dark;
+  }
+}
