@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import AccessBadge from '@/components/AccessBadge'
 import DifficultyBadge from '@/components/DifficultyBadge'
+import AddToCartButton from '@/components/AddToCartButton'
 
 export const revalidate = 60
 
@@ -27,6 +28,8 @@ export default async function ClassDetailPage({
   }
   
   const instructor = classItem.metadata?.instructor
+  const price = classItem.metadata.price || 0
+  const isFree = classItem.metadata.access_type?.key === 'free' || price === 0
   
   return (
     <>
@@ -53,6 +56,9 @@ export default async function ClassDetailPage({
             <AccessBadge accessType={classItem.metadata.access_type} />
             <DifficultyBadge difficulty={classItem.metadata.difficulty_level} />
             <span className="text-white/80">{classItem.metadata.duration} minutes</span>
+            {!isFree && (
+              <span className="text-white font-semibold text-lg">${price.toFixed(2)}</span>
+            )}
           </div>
         </div>
       </section>
@@ -72,9 +78,31 @@ export default async function ClassDetailPage({
             </Link>
             
             <h2 className="font-serif text-3xl text-gray-900 mb-6">About This Class</h2>
-            <p className="text-gray-600 text-lg leading-relaxed mb-12">
+            <p className="text-gray-600 text-lg leading-relaxed mb-8">
               {classItem.metadata.description}
             </p>
+            
+            {/* Add to Cart Section */}
+            <div className="bg-cream-100 rounded-2xl p-8 mb-12">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                  <h3 className="font-serif text-xl text-gray-900 mb-2">
+                    {isFree ? 'Free Class' : 'Purchase This Class'}
+                  </h3>
+                  <p className="text-gray-600">
+                    {isFree 
+                      ? 'This class is available for free to all members.'
+                      : 'Get lifetime access to this class after purchase.'}
+                  </p>
+                </div>
+                <div className="flex items-center gap-4">
+                  {!isFree && (
+                    <span className="text-2xl font-serif text-olive-800">${price.toFixed(2)}</span>
+                  )}
+                  <AddToCartButton classItem={classItem} />
+                </div>
+              </div>
+            </div>
             
             {instructor && (
               <div className="bg-cream-100 rounded-2xl p-8">

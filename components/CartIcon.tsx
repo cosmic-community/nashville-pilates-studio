@@ -1,0 +1,37 @@
+'use client'
+
+import Link from 'next/link'
+import { useContext } from 'react'
+import { CartContext } from './CartProvider'
+
+export default function CartIcon() {
+  // Changed: Use useContext directly instead of useCart hook to avoid throwing during prerender
+  const cartContext = useContext(CartContext)
+  const itemCount = cartContext?.cart.items.length ?? 0
+
+  return (
+    <Link 
+      href="/cart" 
+      className="relative inline-flex items-center gap-2 text-gray-600 hover:text-olive-800 transition-colors"
+    >
+      <svg 
+        className="w-6 h-6" 
+        fill="none" 
+        stroke="currentColor" 
+        viewBox="0 0 24 24"
+      >
+        <path 
+          strokeLinecap="round" 
+          strokeLinejoin="round" 
+          strokeWidth={1.5} 
+          d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" 
+        />
+      </svg>
+      {itemCount > 0 && (
+        <span className="absolute -top-2 -right-2 bg-olive-800 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+          {itemCount}
+        </span>
+      )}
+    </Link>
+  )
+}

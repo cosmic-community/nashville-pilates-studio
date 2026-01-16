@@ -18,23 +18,45 @@
   }
   
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-olive-800 text-white font-medium rounded-full hover:bg-olive-700 transition-colors;
+    @apply inline-flex items-center justify-center px-6 py-3 bg-olive-800 text-white rounded-full 
+           font-medium transition-all duration-300 hover:bg-olive-700 
+           focus:outline-none focus:ring-2 focus:ring-olive-500 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed;
   }
   
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-white text-olive-800 font-medium rounded-full border border-olive-800 hover:bg-olive-50 transition-colors;
+    @apply inline-flex items-center justify-center px-6 py-3 bg-cream-200 text-gray-900 rounded-full 
+           font-medium transition-all duration-300 hover:bg-cream-300
+           focus:outline-none focus:ring-2 focus:ring-cream-400 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 border-2 border-olive-800 text-olive-800 
+           rounded-full font-medium transition-all duration-300 hover:bg-olive-800 hover:text-white
+           focus:outline-none focus:ring-2 focus:ring-olive-500 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed;
   }
   
   .card {
-    @apply bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-medium transition-shadow;
+    @apply bg-white rounded-2xl shadow-soft overflow-hidden transition-all duration-300 
+           hover:shadow-lg;
   }
   
   .badge-premium {
-    @apply px-3 py-1 bg-olive-800 text-white text-xs font-medium rounded-full;
+    @apply bg-olive-800 text-white text-xs font-medium px-3 py-1 rounded-full;
   }
   
   .badge-free {
-    @apply px-3 py-1 bg-emerald-600 text-white text-xs font-medium rounded-full;
+    @apply bg-cream-200 text-olive-800 text-xs font-medium px-3 py-1 rounded-full;
+  }
+  
+  .section-title {
+    @apply font-serif text-4xl md:text-5xl text-gray-900;
+  }
+  
+  .section-subtitle {
+    @apply text-gray-600 text-lg max-w-2xl;
   }
   
   .shadow-soft {

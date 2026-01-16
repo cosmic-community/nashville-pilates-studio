@@ -63,6 +63,7 @@ export interface PilatesClass extends CosmicObject {
     category: CategoryType
     access_type: AccessType
     instructor?: Instructor
+    price?: number
   }
 }
 
@@ -73,7 +74,7 @@ export interface CosmicResponse<T> {
   skip: number
 }
 
-// Blog Types
+// Blog Types (from main branch)
 export interface BlogAuthor extends CosmicObject {
   type: 'blog-authors'
   metadata: {
@@ -127,4 +128,33 @@ export interface PaginatedResponse<T> {
   totalPages: number
   hasNextPage: boolean
   hasPrevPage: boolean
+}
+
+// Cart types (from e-commerce branch)
+export interface CartItem {
+  id: string
+  slug: string
+  title: string
+  price: number
+  image: string
+  duration: number
+  quantity: number
+}
+
+export interface CartState {
+  items: CartItem[]
+  total: number
+}
+
+// Order types for tracking purchases (from e-commerce branch)
+export interface Order extends CosmicObject {
+  type: 'orders'
+  metadata: {
+    stripe_session_id: string
+    customer_email: string
+    total_amount: number
+    status: 'pending' | 'completed' | 'cancelled'
+    items: string // JSON string of cart items
+    created_date: string
+  }
 }
