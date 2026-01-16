@@ -72,3 +72,59 @@ export interface CosmicResponse<T> {
   limit: number
   skip: number
 }
+
+// Blog Types
+export interface BlogAuthor extends CosmicObject {
+  type: 'blog-authors'
+  metadata: {
+    name: string
+    photo: CosmicFile
+    bio: string
+    role?: string
+    instagram?: string
+    twitter?: string
+    linkedin?: string
+  }
+}
+
+export interface BlogCategory extends CosmicObject {
+  type: 'blog-categories'
+  metadata: {
+    name: string
+    description?: string
+    color?: string
+  }
+}
+
+export interface BlogTag extends CosmicObject {
+  type: 'blog-tags'
+  metadata: {
+    name: string
+  }
+}
+
+export interface BlogPost extends CosmicObject {
+  type: 'blog-posts'
+  metadata: {
+    title: string
+    excerpt: string
+    content: string
+    featured_image: CosmicFile
+    publish_date: string
+    author: BlogAuthor
+    category: BlogCategory
+    tags?: BlogTag[]
+    reading_time?: number
+    seo_title?: string
+    seo_description?: string
+  }
+}
+
+export interface PaginatedResponse<T> {
+  items: T[]
+  total: number
+  page: number
+  totalPages: number
+  hasNextPage: boolean
+  hasPrevPage: boolean
+}
