@@ -146,7 +146,7 @@ export async function getOrderBySessionId(sessionId: string): Promise<Order | nu
   }
 }
 
-// Blog Functions (from main branch)
+// Blog Functions
 const POSTS_PER_PAGE = 9
 
 export async function getBlogPosts(
@@ -405,6 +405,7 @@ export async function getBlogAuthorBySlug(slug: string): Promise<BlogAuthor | nu
   }
 }
 
+// Changed: Merged enhanced error handling from main branch with e-commerce functionality
 export async function getBlogPostsByAuthor(
   authorId: string,
   page: number = 1,
@@ -440,6 +441,9 @@ export async function getBlogPostsByAuthor(
       hasPrevPage: page > 1,
     }
   } catch (error) {
+    // Return empty results for any error (404 or otherwise)
+    // This prevents the page from crashing when the author has no posts
+    // or when there's a query issue
     if (hasStatus(error) && error.status === 404) {
       return {
         items: [],
@@ -450,7 +454,17 @@ export async function getBlogPostsByAuthor(
         hasPrevPage: false,
       }
     }
-    throw new Error('Failed to fetch posts by author')
+    // For other errors, also return empty instead of throwing
+    // This is a graceful degradation approach
+    console.error('Error fetching posts by author:', error)
+    return {
+      items: [],
+      total: 0,
+      page: 1,
+      totalPages: 0,
+      hasNextPage: false,
+      hasPrevPage: false,
+    }
   }
 }
 
