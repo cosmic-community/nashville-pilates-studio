@@ -4,8 +4,18 @@ import Link from 'next/link'
 import { useCart } from './CartProvider'
 
 export default function CartIcon() {
-  const { cart } = useCart()
-  const itemCount = cart.items.length
+  // Changed: Added try-catch pattern to handle cases where CartProvider is not available
+  // This prevents build errors during static page generation (e.g., /_not-found)
+  let itemCount = 0
+  
+  try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { cart } = useCart()
+    itemCount = cart.items.length
+  } catch {
+    // CartProvider not available (e.g., during static generation)
+    // Return cart icon without count
+  }
 
   return (
     <Link 

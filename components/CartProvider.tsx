@@ -12,7 +12,8 @@ interface CartContextType {
   isInCart: (itemId: string) => boolean
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined)
+// Changed: Export the context so components can check if it exists
+export const CartContext = createContext<CartContextType | undefined>(undefined)
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartState>({ items: [], total: 0 })
@@ -58,6 +59,22 @@ export function useCart() {
   const context = useContext(CartContext)
   if (context === undefined) {
     throw new Error('useCart must be used within a CartProvider')
+  }
+  return context
+}
+
+// Changed: Added a safe hook that returns default values when outside CartProvider
+export function useCartSafe(): CartContextType {
+  const context = useContext(CartContext)
+  if (context === undefined) {
+    // Return safe default values when not in CartProvider
+    return {
+      cart: { items: [], total: 0 },
+      addToCart: () => {},
+      removeFromCart: () => {},
+      clearCart: () => {},
+      isInCart: () => false,
+    }
   }
   return context
 }
