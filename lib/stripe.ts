@@ -4,9 +4,9 @@ if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('STRIPE_SECRET_KEY is not set')
 }
 
+// Changed: Removed explicit apiVersion to let the SDK use its default compatible version
+// This fixes TS2322 error where the version string didn't match the package's expected types
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  // Use the API version that matches the installed stripe package
-  apiVersion: '2024-11-20.acacia',
   typescript: true,
 })
 
