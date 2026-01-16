@@ -9,6 +9,7 @@ import {
 } from '@/lib/cosmic'
 import BlogCard from '@/components/BlogCard'
 import Pagination from '@/components/Pagination'
+import { BlogPost, PaginatedResponse } from '@/types'
 
 export const revalidate = 60
 
@@ -77,8 +78,8 @@ export default async function AuthorPage({ params, searchParams }: AuthorPagePro
     notFound()
   }
   
-  // Fetch posts with error handling - default to empty results on error
-  let postsData = {
+  // Changed: Properly type postsData as PaginatedResponse<BlogPost> to fix TS2322
+  let postsData: PaginatedResponse<BlogPost> = {
     items: [],
     totalPages: 0,
     total: 0,
