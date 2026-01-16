@@ -8,7 +8,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <header className="bg-white/95 backdrop-blur-sm sticky top-0 z-50 border-b border-cream-200">
+    <header className="bg-white/95 backdrop-blur-sm sticky top-0 z-50 border-b border-cream-200 shadow-soft">
       <nav className="container-custom">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -19,11 +19,17 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
+            <Link href="/" className="text-gray-600 hover:text-olive-800 transition-colors">
+              Home
+            </Link>
             <Link href="/classes" className="text-gray-600 hover:text-olive-800 transition-colors">
               Classes
             </Link>
             <Link href="/instructors" className="text-gray-600 hover:text-olive-800 transition-colors">
               Instructors
+            </Link>
+            <Link href="/blog" className="text-gray-600 hover:text-olive-800 transition-colors">
+              Blog
             </Link>
             <CartIcon />
             <Link href="/cart" className="btn-primary">
@@ -55,6 +61,13 @@ export default function Header() {
           <div className="md:hidden py-4 border-t border-cream-200">
             <div className="flex flex-col gap-4">
               <Link 
+                href="/" 
+                className="text-gray-600 hover:text-olive-800 transition-colors py-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link 
                 href="/classes" 
                 className="text-gray-600 hover:text-olive-800 transition-colors py-2"
                 onClick={() => setIsMenuOpen(false)}
@@ -67,6 +80,13 @@ export default function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Instructors
+              </Link>
+              <Link 
+                href="/blog" 
+                className="text-gray-600 hover:text-olive-800 transition-colors py-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Blog
               </Link>
               <Link 
                 href="/cart" 

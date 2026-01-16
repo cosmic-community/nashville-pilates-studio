@@ -74,7 +74,63 @@ export interface CosmicResponse<T> {
   skip: number
 }
 
-// Cart types
+// Blog Types (from main branch)
+export interface BlogAuthor extends CosmicObject {
+  type: 'blog-authors'
+  metadata: {
+    name: string
+    photo: CosmicFile
+    bio: string
+    role?: string
+    instagram?: string
+    twitter?: string
+    linkedin?: string
+  }
+}
+
+export interface BlogCategory extends CosmicObject {
+  type: 'blog-categories'
+  metadata: {
+    name: string
+    description?: string
+    color?: string
+  }
+}
+
+export interface BlogTag extends CosmicObject {
+  type: 'blog-tags'
+  metadata: {
+    name: string
+  }
+}
+
+export interface BlogPost extends CosmicObject {
+  type: 'blog-posts'
+  metadata: {
+    title: string
+    excerpt: string
+    content: string
+    featured_image: CosmicFile
+    publish_date: string
+    author: BlogAuthor
+    category: BlogCategory
+    tags?: BlogTag[]
+    reading_time?: number
+    seo_title?: string
+    seo_description?: string
+  }
+}
+
+export interface PaginatedResponse<T> {
+  items: T[]
+  total: number
+  page: number
+  totalPages: number
+  hasNextPage: boolean
+  hasPrevPage: boolean
+}
+
+// Cart types (from e-commerce branch)
 export interface CartItem {
   id: string
   slug: string
@@ -90,7 +146,7 @@ export interface CartState {
   total: number
 }
 
-// Order types for tracking purchases
+// Order types for tracking purchases (from e-commerce branch)
 export interface Order extends CosmicObject {
   type: 'orders'
   metadata: {
