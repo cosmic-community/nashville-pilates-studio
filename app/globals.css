@@ -82,22 +82,146 @@
   --tw-prose-bold: #111827;
   --tw-prose-quotes: #4a5c46;
   --tw-prose-quote-borders: #4a5c46;
+  color: var(--tw-prose-body);
+  line-height: 1.75;
+}
+
+/* Changed: Added proper paragraph spacing */
+.prose p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+
+.prose p:first-child {
+  margin-top: 0;
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+/* Changed: Added heading styles */
+.prose h1 {
+  @apply font-serif text-3xl md:text-4xl font-bold mt-12 mb-6;
+  color: var(--tw-prose-headings);
+}
+
+.prose h2 {
+  @apply font-serif text-2xl md:text-3xl font-bold mt-10 mb-4;
+  color: var(--tw-prose-headings);
+}
+
+.prose h3 {
+  @apply font-serif text-xl md:text-2xl font-semibold mt-8 mb-4;
+  color: var(--tw-prose-headings);
+}
+
+.prose h4 {
+  @apply font-serif text-lg md:text-xl font-semibold mt-6 mb-3;
+  color: var(--tw-prose-headings);
 }
 
 .prose img {
-  @apply rounded-xl;
+  @apply rounded-xl my-8;
 }
 
 .prose a {
   @apply text-olive-800 no-underline hover:underline;
+  color: var(--tw-prose-links);
+  font-weight: 500;
 }
 
 .prose blockquote {
-  @apply border-l-4 border-olive-800 italic;
+  @apply border-l-4 border-olive-800 italic pl-6 py-2 my-6;
+  color: var(--tw-prose-quotes);
+  font-style: italic;
 }
 
-.prose h2,
-.prose h3,
-.prose h4 {
-  @apply font-serif;
+.prose blockquote p {
+  margin: 0;
+}
+
+/* Changed: Added list styles */
+.prose ul {
+  @apply list-disc pl-6 my-6 space-y-2;
+}
+
+.prose ol {
+  @apply list-decimal pl-6 my-6 space-y-2;
+}
+
+.prose li {
+  @apply leading-relaxed;
+}
+
+.prose li p {
+  margin: 0;
+}
+
+/* Changed: Added nested list styles */
+.prose ul ul,
+.prose ol ol,
+.prose ul ol,
+.prose ol ul {
+  @apply mt-2 mb-0;
+}
+
+/* Changed: Added code styles */
+.prose code {
+  @apply bg-cream-100 px-1.5 py-0.5 rounded text-sm font-mono;
+  color: #4a5c46;
+}
+
+.prose pre {
+  @apply bg-gray-900 text-gray-100 rounded-xl p-4 my-6 overflow-x-auto;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0 text-inherit;
+}
+
+/* Changed: Added horizontal rule style */
+.prose hr {
+  @apply border-cream-200 my-8;
+}
+
+/* Changed: Added strong/bold style */
+.prose strong {
+  @apply font-bold;
+  color: var(--tw-prose-bold);
+}
+
+/* Changed: Added emphasis style */
+.prose em {
+  @apply italic;
+}
+
+/* Changed: Added figure and figcaption styles */
+.prose figure {
+  @apply my-8;
+}
+
+.prose figcaption {
+  @apply text-center text-sm text-gray-500 mt-3;
+}
+
+/* Changed: Added table styles */
+.prose table {
+  @apply w-full my-6 text-sm;
+}
+
+.prose thead {
+  @apply border-b border-cream-200;
+}
+
+.prose th {
+  @apply text-left font-semibold py-3 px-4;
+}
+
+.prose td {
+  @apply py-3 px-4 border-b border-cream-100;
+}
+
+.prose tbody tr:last-child td {
+  @apply border-b-0;
 }
