@@ -4,6 +4,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CosmicBadge from '@/components/CosmicBadge'
 import { CartProvider } from '@/components/CartProvider'
+import ScrollToTop from '@/components/ScrollToTop'
 
 export const metadata: Metadata = {
   title: 'Aligna Pilates Studio - Graceful Body Movement',
@@ -24,6 +25,7 @@ export default function RootLayout({
       </head>
       <body className="bg-cream-50">
         <CartProvider>
+          <ScrollToTop />
           <Header />
           <main>{children}</main>
           <Footer />
