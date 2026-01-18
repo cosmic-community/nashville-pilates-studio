@@ -9,6 +9,14 @@ import ScrollToTop from '@/components/ScrollToTop'
 export const metadata: Metadata = {
   title: 'Aligna Pilates Studio - Graceful Body Movement',
   description: 'We believe in the art of mindful movement. Our studio offers a serene space where body and mind come into harmony through graceful, intentional practice.',
+  icons: {
+    icon: [
+      {
+        url: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧘</text></svg>',
+        type: 'image/svg+xml',
+      },
+    ],
+  },
 }
 
 export default function RootLayout({
